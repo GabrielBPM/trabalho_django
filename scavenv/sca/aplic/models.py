@@ -5,13 +5,15 @@ class Pessoa(models.Model):
     nome = models.CharField(max_length=100, null=False)
     saldo_conta = models.DecimalField(max_digits=10, decimal_places=2)
 
-class PessoaFisica(Pessoa):
+class PessoaFisica(models.Model):
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
     cpf = models.CharField(max_length=14, null=False)
     data_nascimento = models.DateField(null=False)
     sexo = models.CharField(max_length=1)
     rg = models.CharField(max_length=20, null=False)
 
-class PessoaJuridica(Pessoa):
+class PessoaJuridica(models.Model):
+    pessoa = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
     cnpj = models.CharField(max_length=18, null=False)
     titulo_estabelecimento = models.CharField(max_length=100, null=False)
     codigo_descricao_atividade_economica = models.CharField(max_length=10)
