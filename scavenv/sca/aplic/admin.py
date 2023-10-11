@@ -8,11 +8,11 @@ class PessoaAdmin(admin.ModelAdmin):
 
 @admin.register(PessoaFisica)
 class PessoaFisicaAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'cpf', 'data_nascimento', 'sexo', 'rg')
+    list_display = ('pessoa', 'cpf', 'data_nascimento', 'sexo', 'rg')
 
 @admin.register(PessoaJuridica)
 class PessoaJuridicaAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'cnpj', 'titulo_estabelecimento', 'codigo_descricao_atividade_economica')
+    list_display = ('pessoa', 'cnpj', 'titulo_estabelecimento', 'codigo_descricao_atividade_economica')
 
 @admin.register(Telefone)
 class TelefoneAdmin(admin.ModelAdmin):
