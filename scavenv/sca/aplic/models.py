@@ -80,6 +80,11 @@ class Produto(models.Model):
     indicacao_uso = models.TextField(null=False)
     avaliacao = models.DecimalField(max_digits=3, decimal_places=2, null=False)
     categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE)
+    imagem = models.ImageField(upload_to='imagens/', null=True, blank=True)
+    shampoo = models.BooleanField(default=False)
+    condicionador = models.BooleanField(default=False)
+    def __str__(self):
+        return self.nome
 
 class Categoria(models.Model):
     nome = models.CharField(max_length=100, null=False)

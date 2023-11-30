@@ -1,6 +1,12 @@
 from django.urls import path
-from . import views
+from django.contrib.auth.views import LoginView
+from .views import IndexView, lista_produtos, detalhes_produto, carrinho, RegistroView
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", IndexView.as_view(), name="index"),
+    path('lista_produtos/', lista_produtos, name='lista_produtos'),
+    path('produto/<int:produto_id>/', detalhes_produto, name='detalhes_produto'),
+    path('carrinho/', carrinho, name='carrinho'),
+    path('registro/', RegistroView.as_view(), name='registro'),
+    path('login/', LoginView.as_view(template_name='login.html'), name='login')
 ]

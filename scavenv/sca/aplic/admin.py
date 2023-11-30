@@ -52,7 +52,7 @@ class ItemPedidoAdmin(admin.ModelAdmin):
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'cod_barras', 'preco', 'descricao', 'tamanho', 'avaliacao', 'categoria')
+    list_display = ('nome', 'cod_barras', 'preco', 'descricao', 'tamanho', 'avaliacao', 'categoria', 'imagem')
 
 @admin.register(Categoria)
 class CategoriaAdmin(admin.ModelAdmin):
