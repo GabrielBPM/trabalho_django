@@ -100,7 +100,7 @@
     <strong>
         <h1><i><u>Seu Carrinho</u></i></h1>
     </strong>
-
+    <br><br>
     <ul>
         <li><a href="{% url 'index' %}">Página Principal</a></li>
         <li><a href="{% url 'lista_produtos' %}">Lista de Produtos</a></li>
@@ -109,7 +109,8 @@
 
     <div class="user-buttons">
         {% if user.is_authenticated %}
-            <p>Bem-vindo, {{ user.username }}!</p>
+            <p style="text-shadow: 2px 2px black;">Bem-vindo, {{ user.username }}!</p>
+            <a class="btn btn-primary" href="{% url 'logout' %}">Logoff</a>
         {% else %}
             <a class="btn btn-primary" href="{% url 'registro' %}">Registrar</a>
             <a class="btn btn-primary" href="{% url 'login' %}">Login</a>

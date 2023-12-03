@@ -1,9 +1,10 @@
+from django.db.models import Q
+from typing import Any
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from django.views.generic import TemplateView
 from django.shortcuts import render
 from .models import Produto
-from .filters import ProdutoFilter
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from .forms import RegistroForm
@@ -12,8 +13,9 @@ from .forms import RegistroForm
 class IndexView(TemplateView):
     template_name = 'index.html'
 
-class lista_produtos(TemplateView):
-    template_name = 'lista_produtos.html'
+def lista_produtos(request):
+    produtos = Produto.objects.all()
+    return render(request, 'lista_produtos.html', {'produtos': produtos})
 
 class RegistroView(View):
     template_name = 'registro.html'
@@ -29,14 +31,6 @@ class RegistroView(View):
             login(request, user)
             return redirect('index')
         return render(request, self.template_name, {'form': form})
-
-def lista_produtos(request):
-    produto_filter = ProdutoFilter(request.GET, queryset=Produto.objects.all())
-    return render(request, 'lista_produtos.html', {'filter': produto_filter})
-
-def detalhes_produto(request, produto_id):
-    produto = get_object_or_404(Produto, pk=produto_id)
-    return render(request, 'detalhes_produto.html', {'produto': produto})
 
 def detalhes_produto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
@@ -55,3 +49,20 @@ def carrinho(request):
 
     return render(request, 'carrinho.html', context)
 
+class SearchProdutosView(TemplateView):
+    template_name = 'lista_produtos.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        query = self.request.GET.get('q')
+
+        if query:
+            # Realiza a pesquisa e filtra os produtos
+            context['produtos'] = Produto.objects.filter(
+                Q(nome__icontains=query) | Q(descricao__icontains=query)
+            )
+        else:
+            # Se não houver consulta, exibe todos os produtos
+            context['produtos'] = Produto.objects.all()
+
+        return context

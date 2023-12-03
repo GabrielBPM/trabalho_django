@@ -95,6 +95,32 @@
             background-color: #003366;  /* Mudar a cor ao passar o mouse, se desejar */
             color: #ffffff;            /* Manter o texto branco ao passar o mouse */
 }
+form {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    input[type="text"] {
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-right: 5px;
+    }
+
+    button[type="submit"] {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #001f3f;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #003366;
+    }
     </style>
     <title>Página Principal</title>
 </head>
@@ -104,7 +130,7 @@
     <strong>
         <h1><i><u>Lista de Produtos</u></i></h1>
     </strong>
-
+    <br><br>
     <ul>
         <li><a href="{% url 'index' %}">Página Principal</a></li>
         <li><a href="{% url 'lista_produtos' %}">Lista de Produtos</a></li>
@@ -114,6 +140,7 @@
     <div class="user-buttons">
         {% if user.is_authenticated %}
             <p style="text-shadow: 2px 2px black;">Bem-vindo, {{ user.username }}!</p>
+            <a class="btn btn-primary" href="{% url 'logout' %}">Logoff</a>
         {% else %}
         <a class="btn btn-primary" href="{% url 'registro' %}">Registrar</a>
         <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
@@ -121,21 +148,28 @@
     </div>
 
     <br><br>
-
+    <form method="get" action="{% url 'search_produto' %}">
+        <input type="text" name="q" placeholder="Pesquisar por produtos">
+        <button type="submit">Pesquisar</button>
+    </form>
     <div class="container">
         <div class="row">
-            {% for produto in filter.qs %}
-                <a href="{% url 'detalhes_produto' produto.id %}" class="col-md-4 produto-box">
-                    <div class="produto-content">
-                        <h2>{{ produto.nome }}</h2>
-                        {% if produto.imagem %}
-                            <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="img-fluid produto-img">
-                        {% else %}
-                            <p>Sem imagem disponível</p>
-                        {% endif %}
-                    </div>
-                </a>
-            {% endfor %}
+            {% if produtos %}
+                {% for produto in produtos %}
+                    <a href="{% url 'detalhes_produto' produto.id %}" class="col-md-4 produto-box">
+                        <div class="produto-content">
+                            <h2>{{ produto.nome }}</h2>
+                            {% if produto.imagem %}
+                                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" class="img-fluid produto-img">
+                            {% else %}
+                                <p>Sem imagem disponível</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <p>Nenhum produto encontrado.</p>
+            {% endif %}
         </div>
     </div>
 
